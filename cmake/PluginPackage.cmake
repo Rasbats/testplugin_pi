@@ -22,7 +22,7 @@ if(OCPN_FLATPAK_CONFIG)
     add_custom_target("flatpak-pkg")
     add_custom_command(
         TARGET flatpak-pkg
-        COMMAND curr_dir="(pwd)"
+        COMMAND curr_dir="$(pwd)"
         COMMAND cd ${CMAKE_CURRENT_BINARY_DIR}/app/files
         COMMAND ${TAR} -czf ${PKG_NVR}-${ARCH}_${PKG_TARGET_NVR}.tar.gz --transform 's|.*/files/|${PACKAGE}-flatpak-${PACKAGE_VERSION}/|' .
         COMMAND cd $curr_dir
