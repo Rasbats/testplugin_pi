@@ -24,7 +24,7 @@ if(OCPN_FLATPAK_CONFIG)
         TARGET flatpak-pkg
         COMMAND ${TAR} -czf ${PKG_NVR}-${ARCH}_${PKG_TARGET_NVR}.tar.gz --transform 's|.*/files/|${PACKAGE}-flatpak-${PACKAGE_VERSION}/|' ${CMAKE_CURRENT_BINARY_DIR}/app/files
         COMMAND chmod -R a+wr ../build
-        COMMAND ls -la ${CMAKE_CURRENT_BINARY_DIR}/*)
+        COMMAND ls -la ${CMAKE_CURRENT_BINARY_DIR}/app/files/* )
 
     set(CMLOC ${SAVE_CMLOC})
     return()
