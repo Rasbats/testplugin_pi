@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------
-# Author:      jongough aka. Jon Gough Copyright: License:     wxWidgets License
+# Frontend2 Author:      jongough aka. Jon Gough Copyright: License:     wxWidgets License
 # ---------------------------------------------------------------------------
 
 ## ----- When changing this file do NOT change the order in which sections occur        ----- ##
@@ -37,9 +37,9 @@ set(LONG_DESCRIPTION "testplugin Plugin is used to test out the ODraw API and de
 
 set(VERSION_MAJOR "1")
 set(VERSION_MINOR "0")
-set(VERSION_PATCH "132")
+set(VERSION_PATCH "148")
 set(VERSION_TWEAK "0")
-set(VERSION_DATE "01/08/2020")
+set(VERSION_DATE "03/01/2021") # DD/MM/YYYY format
 set(OCPN_MIN_VERSION "ov50")
 set(OCPN_API_VERSION_MAJOR "1")
 set(OCPN_API_VERSION_MINOR "16")
@@ -55,8 +55,12 @@ set(PROD "prod") # Standard Repos
 set(BETA "beta") # Standard Repos
 set(ALPHA "alpha") # Standard Repos
 
-set(CLOUDSMITH_USER "jon-gough")
-# set this if your cloudsmith repository name does not match your git repository name set(CLOUDSMITH_BASE_REPOSITORY "testplugin_pi")
+# set this if your cloudsmith repository name does not match your git repository name
+#set(CLOUDSMITH_BASE_REPOSITORY "testplugin_pi")
+set(CLOUDSMITH_BASE_REPOSITORY "testplugin")
+# Set the following to use OpenCPN cloudsmith repositories instead of own repositories
+set(CLOUDSMITH_USER "opencpn")
+#set(CLOUDSMITH_USER "jon-gough")
 
 set(XML_INFO_URL "https://opencpn.org/wiki/dokuwiki/doku.php?id=opencpn:opencpn_user_manual:plugins:safety:odraw1.6_pi")
 set(XML_SUMMARY ${SHORT_DESCRIPTION})
@@ -78,13 +82,12 @@ set(CMAKE_CXX_STANDARD 11)
 set(OpenGL_GL_PREFERENCE "LEGACY")
 # Don't use local version of GLU library
 set(USE_LOCAL_GLU FALSE)
+
 option(USE_GL "Enable OpenGL support" OFF)
 message(STATUS "${CMLOC}USE_GL: ${USE_GL}")
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "")
-    set(CMAKE_BUILD_TYPE
-        "Release"
-        CACHE STRING "Choose the type of build" FORCE)
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build" FORCE)
 endif("${CMAKE_BUILD_TYPE}" STREQUAL "")
 set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "" "Debug" "Release" "RelWithDebInfo" "MinSizeRel")
 message(STATUS "${CMLOC}Build type: ${CMAKE_BUILD_TYPE}")
@@ -202,7 +205,7 @@ add_library(${PACKAGE_NAME} SHARED ${SRCS} ${HDRS} ${OCPNSRC} ${EXTSRC} ${LIBSSR
 
 add_definitions(-DTIXML_USE_STL)
 
-if(UNIX AND NOT APPLE)
+if(UNIX AND NOT APPLE AND NOT QT_ANDRIOD)
     if(PI_JSON_SCHEMA_VALIDATOR)
         # Change OS/ABI to be UNIX - System V to make it run with OCPN
         set(lib_name lib${PACKAGE_NAME}.so)
@@ -221,7 +224,7 @@ if(UNIX AND NOT APPLE)
             message(STATUS "${CMLOC}Cannot correct OS/ABI to match OCPN if it is generated incorrectly. Package binutils needed")
         endif(NOT (${elfedit} STREQUAL "elfedit-NOTFOUND"))
     endif(PI_JSON_SCHEMA_VALIDATOR)
-endif(UNIX AND NOT APPLE)
+endif(UNIX AND NOT APPLE AND NOT QT_ANDRIOD)
 
 ##
 ## ----- Change above to match project requirements ----- ##
